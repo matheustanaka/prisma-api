@@ -1,23 +1,18 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
+import express from 'express'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
+const app = express()
 
-async function main() {
-    const newOrder = await prisma.order.create({
-        data: {
-            product: 'Laptop #1',
-            seller: 'Seller #1',
-            country: 'BRA',
-            price: 1000
-        }
-    })
+app.use(express.json())
 
-    console.log('Created new Order', newOrder)
+//Get all orders
+app.get('/orders', async(req, res) => {
+    const orders = await prisma.order.findMany()
 
-    const allOrders = await prisma.order.findMany({})
+    res.json(orders)
+})
 
-    console.log('All orders: ')
-    console.dir(allOrders, { depth: null})
-}
-
-main().catch((e) => console.error(e)).finally(async () => await prisma.$disconnect())
+app.listen(3000, () =>
+  console.log('REST API server ready at: http://localhost:3000'),
+)
