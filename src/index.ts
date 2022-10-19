@@ -37,6 +37,22 @@ app.post('/order', async (req, res) => {
     res.json(createOrder)
 })
 
+//Update order
+app.put('/order/update/:id', async(req, res) => {
+    const { id } = req.params;
+
+    const updateOrder = await prisma.order.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            ...req.body
+        }
+    })
+
+    res.json(updateOrder)
+})
+
 app.listen(3000, () =>
   console.log('REST API server ready at: http://localhost:3000'),
 )
