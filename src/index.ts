@@ -53,6 +53,19 @@ app.put('/order/update/:id', async(req, res) => {
     res.json(updateOrder)
 })
 
+//Delete order
+app.delete('/order/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const deleteOrder = await prisma.order.delete({
+        where: {
+            id: Number(id)
+        }
+    })
+
+    res.json(deleteOrder)
+})
+
 app.listen(3000, () =>
   console.log('REST API server ready at: http://localhost:3000'),
 )
