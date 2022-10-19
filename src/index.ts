@@ -26,6 +26,17 @@ app.get('/orders/:id', async(req, res) => {
     res.json(orderById)
 })
 
+//Create Order
+app.post('/order', async (req, res) => {
+    const createOrder = await prisma.order.create({
+        data: {
+            ...req.body
+        }
+    })
+
+    res.json(createOrder)
+})
+
 app.listen(3000, () =>
   console.log('REST API server ready at: http://localhost:3000'),
 )
