@@ -26,6 +26,21 @@ app.get('/orders/:id', async(req, res) => {
     res.json(orderById)
 })
 
+//Get order by country
+app.get('/order/:country', async(req, res) => {
+    const { country } = req.params;
+    
+    const filterByCountry = await prisma.order.findMany({
+        where: {
+            country: {
+                contains: country
+            }
+        }
+    })
+
+    res.json(filterByCountry)
+})
+
 //Create Order
 app.post('/order', async (req, res) => {
     const createOrder = await prisma.order.create({
