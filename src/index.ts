@@ -46,6 +46,24 @@ app.get('/order/:country', async(req, res) => {
     res.json(filterByCountry)
 })
 
+//Get order by seller
+app.get('/order/filter/:seller', async(req, res) => {
+    const { seller } = req.params;
+    
+    const filterBySeller = await prisma.order.findMany({
+        where: {
+            seller: { 
+                in: seller
+             }
+        },
+        orderBy: {
+            id: 'asc'
+        }
+    })
+    res.json(filterBySeller)
+
+})
+
 //Create Order
 app.post('/order', async (req, res) => {
     const createOrder = await prisma.order.create({
