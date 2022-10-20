@@ -1,7 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 import express from 'express'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+    log: ['query'],
+})
 const app = express()
 
 app.use(express.json())
@@ -33,8 +35,11 @@ app.get('/order/:country', async(req, res) => {
     const filterByCountry = await prisma.order.findMany({
         where: {
             country: {
-                contains: country
+                search: country
             }
+        },
+        orderBy: {
+            id: 'asc'
         }
     })
 
