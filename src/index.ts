@@ -3,7 +3,6 @@ import express from 'express'
 import cors from 'cors'
 
 import { prisma } from './database/database'
-import { Order } from './types/order'
 
 const app = express()
 app.use(express.json())
